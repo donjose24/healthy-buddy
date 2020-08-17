@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jmramos02/healthybuddy/internal/utility"
+	"github.com/jmramos02/healthy-buddy/internal/utility"
 )
 
 type HttpErrorResponse struct {

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jmramos02/healthybuddy/internal/features/authentication"
+	"github.com/jmramos02/healthy-buddy/internal/features/authentication"
 )
 
 func RegisterCustomer(c *gin.Context) {

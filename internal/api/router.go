@@ -2,10 +2,10 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jmramos02/healthybuddy/internal/api/handler"
-	"github.com/jmramos02/healthybuddy/internal/api/middleware"
-	"github.com/jmramos02/healthybuddy/internal/database"
-	"github.com/jmramos02/healthybuddy/internal/model"
+	"github.com/jmramos02/healthy-buddy/internal/api/handler"
+	"github.com/jmramos02/healthy-buddy/internal/api/middleware"
+	"github.com/jmramos02/healthy-buddy/internal/database"
+	"github.com/jmramos02/healthy-buddy/internal/model"
 )
 
 func Initialize() *gin.Engine {

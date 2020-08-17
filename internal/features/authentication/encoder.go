@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/jmramos02/healthybuddy/internal/model"
+	"github.com/jmramos02/healthy-buddy/internal/model"
 )
 
 type Claim struct {

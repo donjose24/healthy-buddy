@@ -1,4 +1,4 @@
-module github.com/jmramos02/healthybuddy
+module github.com/jmramos02/healthy-buddy
 
 go 1.13
 

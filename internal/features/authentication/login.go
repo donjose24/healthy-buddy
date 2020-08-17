@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/jinzhu/gorm"
-	"github.com/jmramos02/healthybuddy/internal/model"
-	"github.com/jmramos02/healthybuddy/internal/utility"
+	"github.com/jmramos02/healthy-buddy/internal/model"
+	"github.com/jmramos02/healthy-buddy/internal/utility"
 )
 
 type LoginRequest struct {

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/jmramos02/healthybuddy/internal/api"
+import "github.com/jmramos02/healthy-buddy/internal/api"
 
 func main() {
 	router := api.Initialize()
