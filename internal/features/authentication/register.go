@@ -94,6 +94,7 @@ func Register(ctx context.Context, request RegisterRequest, userType string) (re
 			dietitianData := model.Dietitian{
 				YearsOfExperience: request.YearsOfExperience,
 				Specialty:         request.Specialty,
+				UserID:            user.ID,
 			}
 
 			if err = db.Create(&dietitianData).Error; err != nil {

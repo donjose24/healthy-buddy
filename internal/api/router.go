@@ -24,6 +24,7 @@ func Initialize() *gin.Engine {
 	router.POST("/register/customer", handler.RegisterCustomer)
 	router.POST("register/dietitian", handler.RegisterDietitian)
 	router.POST("/login", handler.Login)
+	router.GET("/dietitians", handler.ListDietitians)
 
 	return router
 }

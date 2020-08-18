@@ -1,18 +1,21 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import "time"
 
 type Customer struct {
-	*gorm.Model
-	Goal              string    `json:"goal"`
-	Allergy           string    `json:"allergy"`
-	Weight            float64   `json:"weight"`
-	Height            string    `json:"height"`
-	DietaryPreference string    `json:"dietary_preference"`
-	Gender            string    `json:"gender"`
-	UserID            uint      `json:"user_id"`
-	DietitianID       uint      `json:"dietitian_id"`
-	Dietitian         Dietitian `json:"dietitian"`
+	ID                uint       `gorm:"primary_key" json:"id"`
+	CreatedAt         time.Time  `json:"created_at"`
+	UpdatedAt         time.Time  `json:"updated_at"`
+	DeletedAt         *time.Time `sql:"index" json:"deleted_at"`
+	Goal              string     `json:"goal"`
+	Allergy           string     `json:"allergy"`
+	Weight            float64    `json:"weight"`
+	Height            string     `json:"height"`
+	DietaryPreference string     `json:"dietary_preference"`
+	Gender            string     `json:"gender"`
+	UserID            uint       `json:"user_id"`
+	DietitianID       uint       `json:"dietitian_id"`
+	Dietitian         Dietitian  `json:"dietitian"`
 }
 
 func (c Customer) TableName() string {
