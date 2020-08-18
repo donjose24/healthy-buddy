@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jinzhu/gorm"
 	"github.com/jmramos02/healthy-buddy/internal/model"
@@ -19,6 +20,8 @@ type RegisterRequest struct {
 	Height            string  `json:"height"`
 	DietaryPreference string  `json:"dietary_preference"`
 	Gender            string  `json:"gender"`
+	Specialty         string  `json:"specialty"`
+	YearsOfExperience int     `json:"years_of_experience"`
 }
 
 type AuthenticationResponse struct {
@@ -29,9 +32,24 @@ type AccessToken struct {
 	AcessToken string `json:"access_token"`
 }
 
-func RegisterCustomer(ctx context.Context, request RegisterRequest, userType string) (response AuthenticationResponse, err error) {
+func Register(ctx context.Context, request RegisterRequest, userType string) (response AuthenticationResponse, err error) {
 	db := ctx.Value("db").(*gorm.DB)
-	user := model.User{
+	var user model.User
+
+	if err = db.Where("email = ?", request.Email).First(&user).Error; err == nil {
+		return response, &utility.HttpError{
+			StatusCode: 400,
+			Message:    "INVALID_PARAMETERS",
+			Errors: map[string]string{
+				"email": "already_exists",
+			},
+		}
+
+	}
+
+	fmt.Println(err == nil)
+
+	user = model.User{
 		Email:     request.Email,
 		FirstName: request.FirstName,
 		LastName:  request.LastName,
@@ -46,10 +64,10 @@ func RegisterCustomer(ctx context.Context, request RegisterRequest, userType str
 		}
 	}
 
-	var userData model.Customer
 	switch userType {
 	case "customer":
 		{
+			var userData model.Customer
 			userData = model.Customer{
 				Weight:            request.Weight,
 				Height:            request.Height,
@@ -59,18 +77,36 @@ func RegisterCustomer(ctx context.Context, request RegisterRequest, userType str
 				DietaryPreference: request.DietaryPreference,
 				UserID:            user.ID,
 			}
+
+			if err = db.Create(&userData).Error; err != nil {
+				return response, &utility.HttpError{
+					StatusCode: 500,
+					Message:    "SOMETHING_WENT_WRONG",
+				}
+			}
+
+			response.Data.AcessToken = encodeUserInfo(user, userData)
+			break
+		}
+
+	case "dietitian":
+		{
+			dietitianData := model.Dietitian{
+				YearsOfExperience: request.YearsOfExperience,
+				Specialty:         request.Specialty,
+			}
+
+			if err = db.Create(&dietitianData).Error; err != nil {
+				return response, &utility.HttpError{
+					StatusCode: 500,
+					Message:    "SOMETHING_WENT_WRONG",
+				}
+			}
+
+			response.Data.AcessToken = encodeUserInfo(user, dietitianData)
 			break
 		}
 	}
-
-	if err = db.Create(&userData).Error; err != nil {
-		return response, &utility.HttpError{
-			StatusCode: 500,
-			Message:    "SOMETHING_WENT_WRONG",
-		}
-	}
-
-	response.Data.AcessToken = encodeUserInfo(user, userData)
 
 	return response, nil
 }

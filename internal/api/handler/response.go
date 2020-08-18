@@ -6,8 +6,8 @@ import (
 )
 
 type HttpErrorResponse struct {
-	Errors  map[string]string `json:"error,omitempty"`
-	Message string
+	Errors  map[string]string `json:"errors,omitempty"`
+	Message string            `json:"message"`
 }
 
 func render(data interface{}, err error, context *gin.Context) {

@@ -7,12 +7,12 @@ import (
 	"github.com/jmramos02/healthy-buddy/internal/features/authentication"
 )
 
-func RegisterCustomer(c *gin.Context) {
+func RegisterDietitian(c *gin.Context) {
 	var request authentication.RegisterRequest
 	c.Bind(&request)
 
 	ctx := c.MustGet("context").(context.Context)
-	response, err := authentication.Register(ctx, request, "customer")
+	response, err := authentication.Register(ctx, request, "dietitian")
 
 	render(response, err, c)
 }
