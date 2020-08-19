@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
-	customer "github.com/jmramos02/healthy-buddy/internal/features/customer_dashboard"
+	"github.com/jmramos02/healthy-buddy/internal/domain/customer"
 )
 
 func GetCustomerDashboard(c *gin.Context) {

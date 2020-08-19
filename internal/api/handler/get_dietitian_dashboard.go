@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/gin-gonic/gin"
-	dietitian "github.com/jmramos02/healthy-buddy/internal/features/dietitian_dashboard"
+	"github.com/jmramos02/healthy-buddy/internal/domain/dietitian"
 )
 
 func GetDietitianDashboard(c *gin.Context) {

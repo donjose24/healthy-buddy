@@ -1,4 +1,4 @@
-package list_dietitian
+package dietitian
 
 import (
 	"context"
