@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strings"
 
@@ -16,11 +17,12 @@ type Claim struct {
 	jwt.StandardClaims
 }
 
-func ValidateUserSession() gin.HandlerFunc {
+func ValidateUserSession(userType string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		reqToken := c.Request.Header.Get("Authorization")
 		splitToken := strings.Split(reqToken, "Bearer")
 		if len(splitToken) != 2 {
+			fmt.Println(splitToken)
 			c.JSON(401, gin.H{
 				"code": "UNAUTHORIZED",
 			})
@@ -37,9 +39,18 @@ func ValidateUserSession() gin.HandlerFunc {
 		})
 
 		if err != nil {
+			fmt.Println(err.Error())
 			c.AbortWithStatusJSON(401, gin.H{
 				"code": "UNAUTHORIZED",
 			})
+			return
+		}
+
+		if claims.User.Type != userType {
+			c.AbortWithStatusJSON(403, gin.H{
+				"code": "FORBIDDEN",
+			})
+			return
 		}
 
 		ctx := c.MustGet("context").(context.Context)

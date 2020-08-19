@@ -28,8 +28,14 @@ func Initialize() *gin.Engine {
 
 	customerRoutes := router.Group("/customer")
 	{
-		customerRoutes.Use(middleware.ValidateUserSession())
+		customerRoutes.Use(middleware.ValidateUserSession("customer"))
 		customerRoutes.GET("", handler.GetCustomerDashboard)
+	}
+
+	dietitianRoutes := router.Group("/dietitian")
+	{
+		dietitianRoutes.Use(middleware.ValidateUserSession("dietitian"))
+		dietitianRoutes.GET("", handler.GetDietitianDashboard)
 	}
 
 	return router

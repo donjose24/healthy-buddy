@@ -30,14 +30,34 @@ func Login(ctx context.Context, request LoginRequest) (response AuthenticationRe
 		}
 	}
 
-	var customer model.Customer
-	if err := db.Where("user_id = ?", user.ID).First(&customer).Error; err != nil {
-		return response, &utility.HttpError{
-			StatusCode: 401,
-			Message:    "SOMETHING_WENT_WRONG",
+	if user.Type == "customer" {
+		var customer model.Customer
+		if err := db.Where("user_id = ?", user.ID).First(&customer).Error; err != nil {
+			return response, &utility.HttpError{
+				StatusCode: 500,
+				Message:    "SOMETHING_WENT_WRONG",
+			}
 		}
+
+		response.Data.AcessToken = encodeUserInfo(user, customer)
+		return response, nil
 	}
 
-	response.Data.AcessToken = encodeUserInfo(user, customer)
-	return response, nil
+	if user.Type == "dietitian" {
+		var dietitian model.Dietitian
+		if err := db.Where("user_id = ?", user.ID).First(&dietitian).Error; err != nil {
+			return response, &utility.HttpError{
+				StatusCode: 500,
+				Message:    "SOMETHING_WENT_WRONG",
+			}
+		}
+
+		response.Data.AcessToken = encodeUserInfo(user, dietitian)
+		return response, nil
+	}
+
+	return response, &utility.HttpError{
+		StatusCode: 500,
+		Message:    "SOMETHING_WENT_WRONG",
+	}
 }
