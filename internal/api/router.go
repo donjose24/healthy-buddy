@@ -13,6 +13,7 @@ func Initialize() *gin.Engine {
 	db.AutoMigrate(&model.User{}, &model.Customer{}, &model.Dietitian{}, &model.MealPlan{}, &model.MealPlanEntry{})
 	router := gin.Default()
 
+	router.Use(middleware.CORSMiddleware())
 	router.Use(middleware.SetContext())
 	router.Use(middleware.SetDatabase(db))
 	router.GET("/ping", func(c *gin.Context) {
