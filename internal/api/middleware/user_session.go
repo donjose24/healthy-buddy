@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"os"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -15,12 +16,23 @@ type Claim struct {
 	jwt.StandardClaims
 }
 
-func ValidateUserSession(token string) gin.HandlerFunc {
+func ValidateUserSession() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		reqToken := c.Request.Header.Get("Authorization")
+		splitToken := strings.Split(reqToken, "Bearer")
+		if len(splitToken) != 2 {
+			c.JSON(401, gin.H{
+				"code": "UNAUTHORIZED",
+			})
+			c.Abort()
+			return
+		}
+
+		reqToken = strings.TrimSpace(splitToken[1])
 		appKey := os.Getenv("APPLICATION_KEY")
 		claims := &Claim{}
 
-		_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		_, err := jwt.ParseWithClaims(reqToken, claims, func(token *jwt.Token) (interface{}, error) {
 			return []byte(appKey), nil
 		})
 
@@ -33,5 +45,8 @@ func ValidateUserSession(token string) gin.HandlerFunc {
 		ctx := c.MustGet("context").(context.Context)
 		ctx = context.WithValue(ctx, "user", claims.User)
 		ctx = context.WithValue(ctx, "details", claims.Details)
+
+		c.Set("context", ctx)
+		c.Next()
 	}
 }

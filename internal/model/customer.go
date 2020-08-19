@@ -14,8 +14,9 @@ type Customer struct {
 	DietaryPreference string     `json:"dietary_preference"`
 	Gender            string     `json:"gender"`
 	UserID            uint       `json:"user_id"`
+	User              User       `json:"user"`
 	DietitianID       uint       `json:"dietitian_id"`
-	Dietitian         Dietitian  `json:"dietitian"`
+	Dietitian         Dietitian  `gorm:"foreignKey:DietitianID" json:"dietitian"`
 }
 
 func (c Customer) TableName() string {

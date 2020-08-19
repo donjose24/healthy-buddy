@@ -26,5 +26,11 @@ func Initialize() *gin.Engine {
 	router.POST("/login", handler.Login)
 	router.GET("/dietitians", handler.ListDietitians)
 
+	customerRoutes := router.Group("/customer")
+	{
+		customerRoutes.Use(middleware.ValidateUserSession())
+		customerRoutes.GET("", handler.GetCustomerDashboard)
+	}
+
 	return router
 }
