@@ -36,6 +36,7 @@ func Initialize() *gin.Engine {
 	{
 		dietitianRoutes.Use(middleware.ValidateUserSession("dietitian"))
 		dietitianRoutes.GET("", handler.GetDietitianDashboard)
+		dietitianRoutes.POST("/meal", handler.CreateMealPlan)
 	}
 
 	return router

@@ -9,7 +9,7 @@ type Dietitian struct {
 	DeletedAt         *time.Time `sql:"index" json:"deleted_at"`
 	Specialty         string     `json:"specialty"`
 	YearsOfExperience int        `json:"years_of_experience"`
-	Customers         []Customer `json:"customers"`
+	Customers         []Customer `json:"customers,omitempty"`
 	UserID            uint       `json:"-"`
-	User              User       `gorm:"foreignKey:UserID" json:"user"`
+	User              *User      `gorm:"foreignKey:UserID" json:"user,omitempty"`
 }

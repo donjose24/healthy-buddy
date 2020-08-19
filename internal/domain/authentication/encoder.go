@@ -19,7 +19,8 @@ func encodeUserInfo(user model.User, details interface{}) string {
 	expiration := time.Now().Add(1 * time.Hour)
 
 	claim := Claim{
-		User: user,
+		User:    user,
+		Details: details,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expiration.Unix(),
 		},
