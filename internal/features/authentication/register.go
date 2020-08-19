@@ -2,7 +2,6 @@ package authentication
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/jinzhu/gorm"
 	"github.com/jmramos02/healthy-buddy/internal/model"
@@ -22,6 +21,7 @@ type RegisterRequest struct {
 	Gender            string  `json:"gender"`
 	Specialty         string  `json:"specialty"`
 	YearsOfExperience int     `json:"years_of_experience"`
+	DietitianID       uint    `json:"dietitian_id"`
 }
 
 type AuthenticationResponse struct {
@@ -46,8 +46,6 @@ func Register(ctx context.Context, request RegisterRequest, userType string) (re
 		}
 
 	}
-
-	fmt.Println(err == nil)
 
 	user = model.User{
 		Email:     request.Email,
@@ -76,6 +74,7 @@ func Register(ctx context.Context, request RegisterRequest, userType string) (re
 				Allergy:           request.Allergy,
 				DietaryPreference: request.DietaryPreference,
 				UserID:            user.ID,
+				DietitianID:       request.DietitianID,
 			}
 
 			if err = db.Create(&userData).Error; err != nil {

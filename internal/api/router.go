@@ -10,7 +10,7 @@ import (
 
 func Initialize() *gin.Engine {
 	db := database.Initialize()
-	db.AutoMigrate(&model.User{}, &model.Customer{}, &model.Dietitian{})
+	db.AutoMigrate(&model.User{}, &model.Customer{}, &model.Dietitian{}, &model.MealPlan{}, &model.MealPlanEntry{})
 	router := gin.Default()
 
 	router.Use(middleware.SetContext())
