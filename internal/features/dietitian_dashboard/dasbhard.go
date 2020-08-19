@@ -9,7 +9,7 @@ import (
 )
 
 type GetDietitianDashboardResponse struct {
-	Data model.Dietitian
+	Data model.Dietitian `json:"data"`
 }
 
 func Fetch(ctx context.Context) (response GetDietitianDashboardResponse, err error) {
