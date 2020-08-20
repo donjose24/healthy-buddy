@@ -15,7 +15,7 @@ type CreateMealPlanRequest struct {
 	Title           string     `json:"title"`
 	Description     string     `json:"description"`
 	Remarks         string     `json:"remarks"`
-	CustomerID      uint       `json:"customer"`
+	CustomerID      uint       `json:"customer_id"`
 	MealPlanEntrees []MealPlan `json:"meals"`
 }
 
@@ -27,7 +27,7 @@ type MealPlan struct {
 	Calories    float64 `json:"calories"`
 	Grams       float64 `json:"grams"`
 	Description string  `json:"description"`
-	MealTime    string  `json:"break_fast"`
+	MealTime    string  `json:"meal_time"`
 	Date        string  `json:"date"`
 }
 
