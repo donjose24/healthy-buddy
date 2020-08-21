@@ -18,7 +18,7 @@ func Fetch(ctx context.Context) (response GetDietitianDashboardResponse, err err
 
 	var dietitian model.Dietitian
 
-	if err := db.Preload("Customers").Preload("User").Where("user_id = ?", user.ID).First(&dietitian).Error; err != nil {
+	if err := db.Preload("Customers").Preload("Customers.User").Preload("User").Where("user_id = ?", user.ID).First(&dietitian).Error; err != nil {
 		return response, &utility.HttpError{
 			StatusCode: 401,
 			Message:    "UNAUTHORIZED",
