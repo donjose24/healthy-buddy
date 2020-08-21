@@ -30,6 +30,7 @@ func Login(ctx context.Context, request LoginRequest) (response AuthenticationRe
 		}
 	}
 
+	response.Data.UserType = user.Type
 	if user.Type == "customer" {
 		var customer model.Customer
 		if err := db.Where("user_id = ?", user.ID).First(&customer).Error; err != nil {

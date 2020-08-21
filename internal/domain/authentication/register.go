@@ -30,6 +30,7 @@ type AuthenticationResponse struct {
 
 type AccessToken struct {
 	AcessToken string `json:"access_token"`
+	UserType   string `json:"user_type"`
 }
 
 func Register(ctx context.Context, request RegisterRequest, userType string) (response AuthenticationResponse, err error) {
@@ -108,5 +109,6 @@ func Register(ctx context.Context, request RegisterRequest, userType string) (re
 		}
 	}
 
+	response.Data.UserType = userType
 	return response, nil
 }
